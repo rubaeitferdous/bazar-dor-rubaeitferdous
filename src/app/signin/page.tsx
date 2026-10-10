@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import toast from "react-hot-toast";
-import { signIn, socialProviders } from "@/lib/auth-client";
+import { signIn } from "@/lib/auth-client";
 
-export default function SignInPage() {
+function SignInContent() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -40,17 +40,18 @@ export default function SignInPage() {
   };
 
   const handleGoogleSignIn = async () => {
-    if (!socialProviders.google) {
-      toast.error("Google লগইন এই পরিবেশে সক্ষম নেই।");
-      return;
-    }
-
     setLoading(true);
     try {
-      await signIn.social({
+      const result = await signIn.social({
         provider: "google",
         callbackURL: callbackUrl,
       });
+      if (result?.data?.url) {
+        window.location.href = result.data.url;
+      } else if (result?.error) {
+        toast.error(result.error.message || "Google লগইন ব্যর্থ হয়েছে!");
+        setLoading(false);
+      }
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Google লগইন ব্যর্থ হয়েছে!");
       setLoading(false);
@@ -58,17 +59,18 @@ export default function SignInPage() {
   };
 
   const handleGitHubSignIn = async () => {
-    if (!socialProviders.github) {
-      toast.error("GitHub লগইন এই পরিবেশে সক্ষম নেই।");
-      return;
-    }
-
     setLoading(true);
     try {
-      await signIn.social({
+      const result = await signIn.social({
         provider: "github",
         callbackURL: callbackUrl,
       });
+      if (result?.data?.url) {
+        window.location.href = result.data.url;
+      } else if (result?.error) {
+        toast.error(result.error.message || "GitHub লগইন ব্যর্থ হয়েছে!");
+        setLoading(false);
+      }
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "GitHub লগইন ব্যর্থ হয়েছে!");
       setLoading(false);
@@ -84,7 +86,12 @@ export default function SignInPage() {
         </div>
 
         <div className="space-y-2">
-          <button onClick={handleGoogleSignIn} disabled={loading} className="btn btn-outline w-full gap-2 rounded-full">
+          <button
+            type="button"
+            onClick={handleGoogleSignIn}
+            disabled={loading}
+            className="btn btn-outline w-full gap-2 rounded-full"
+          >
             <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1Z" />
               <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23Z" />
@@ -94,7 +101,12 @@ export default function SignInPage() {
             Google দিয়ে সাইন ইন
           </button>
 
-          <button onClick={handleGitHubSignIn} disabled={loading} className="btn btn-outline w-full gap-2 rounded-full">
+          <button
+            type="button"
+            onClick={handleGitHubSignIn}
+            disabled={loading}
+            className="btn btn-outline w-full gap-2 rounded-full"
+          >
             <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5" aria-hidden="true">
               <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.23c-3.34.73-4.03-1.42-4.03-1.42-.55-1.38-1.33-1.75-1.33-1.75-1.09-.75.08-.74.08-.74 1.21.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.49.99.11-.77.42-1.3.76-1.6-2.66-.3-5.47-1.33-5.47-5.92 0-1.31.47-2.38 1.24-3.22-.12-.3-.53-1.52.12-3.17 0 0 1.01-.32 3.3 1.23.96-.27 1.99-.4 3.02-.4 1.03 0 2.07.13 3.02.4 2.29-1.55 3.3-1.23 3.3-1.23.65 1.65.24 2.87.12 3.17.78.84 1.24 1.91 1.24 3.22 0 4.6-2.81 5.62-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.21.7.82.58A12.01 12.01 0 0 0 24 12c0-6.63-5.37-12-12-12Z" />
             </svg>
@@ -135,12 +147,26 @@ export default function SignInPage() {
         </form>
 
         <p className="mt-5 text-center text-sm text-slate-500">
-          অ্যাকাউন্ট নেই? {" "}
+          অ্যাকাউন্ট নেই?{" "}
           <Link href="/signup" className="font-semibold text-emerald-600 hover:underline">
             রেজিস্টার করুন
           </Link>
         </p>
       </div>
     </div>
+  );
+}
+
+export default function SignInPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-[80vh] items-center justify-center">
+          <span className="loading loading-spinner loading-lg text-emerald-600" />
+        </div>
+      }
+    >
+      <SignInContent />
+    </Suspense>
   );
 }

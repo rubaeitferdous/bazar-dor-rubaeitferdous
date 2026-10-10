@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { authClient, useSession } from "@/lib/auth-client";
 
@@ -10,13 +10,13 @@ export default function UpdateProfilePage() {
   const { data: session, isPending } = useSession();
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [hasInitialized, setHasInitialized] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
-    if (session?.user?.name) {
-      setName(session.user.name);
-    }
-  }, [session]);
+  if (session?.user?.name && !hasInitialized) {
+    setName(session.user.name);
+    setHasInitialized(true);
+  }
 
   const handleUpdate = async (event: React.FormEvent) => {
     event.preventDefault();

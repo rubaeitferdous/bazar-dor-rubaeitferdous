@@ -10,8 +10,3 @@ export const authClient = createAuthClient({
 });
 
 export const { signIn, signUp, signOut, useSession } = authClient;
-
-export const socialProviders = {
-  google: Boolean(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID),
-  github: Boolean(process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID),
-};

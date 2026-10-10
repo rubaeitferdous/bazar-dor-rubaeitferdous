@@ -17,9 +17,8 @@ export default function CategoryPage() {
   const [sortBy, setSortBy] = useState<"default" | "price-asc" | "price-desc">("default");
 
   useEffect(() => {
+    let ignore = false;
     const controller = new AbortController();
-    setLoading(true);
-    setError(false);
 
     Promise.all([
       fetch(`https://api.api-store.workers.dev/api/bazardor/products?category=${slug}`, { signal: controller.signal }),
@@ -33,17 +32,30 @@ export default function CategoryPage() {
         const productData = (await productResponse.json()) as Product[];
         const categoryData = (await categoryResponse.json()) as Category;
 
-        setProducts(productData);
-        setCategory(categoryData);
+        if (!ignore) {
+          setProducts(productData);
+          setCategory(categoryData);
+          setError(false);
+        }
       })
-      .catch(() => {
-        setProducts([]);
-        setCategory(null);
-        setError(true);
+      .catch((err: unknown) => {
+        if (err instanceof Error && err.name === "AbortError") return;
+        if (!ignore) {
+          setProducts([]);
+          setCategory(null);
+          setError(true);
+        }
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        if (!ignore) {
+          setLoading(false);
+        }
+      });
 
-    return () => controller.abort();
+    return () => {
+      ignore = true;
+      controller.abort();
+    };
   }, [slug]);
 
   const sortedProducts = useMemo(() => {

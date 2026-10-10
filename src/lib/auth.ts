@@ -19,6 +19,10 @@ if (process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET) {
   };
 }
 
+declare global {
+  var _mongoClient: MongoClient | undefined;
+}
+
 const memoryDatabase = memoryAdapter({
   users: [],
   sessions: [],
@@ -33,19 +37,43 @@ const getDatabase = () => {
     return memoryDatabase;
   }
 
-  const client = new MongoClient(connectionString);
-  const db = client.db(process.env.MONGODB_DB || "bazar-dor");
+  let client: MongoClient;
+  if (process.env.NODE_ENV === "development") {
+    if (!global._mongoClient) {
+      global._mongoClient = new MongoClient(connectionString);
+    }
+    client = global._mongoClient;
+  } else {
+    client = new MongoClient(connectionString);
+  }
+
+  const db = client.db(process.env.MONGODB_DB || "bazardor");
   return mongodbAdapter(db, { client });
 };
 
 export const auth = betterAuth({
+  baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
+  secret: process.env.BETTER_AUTH_SECRET || "your-secret-key-at-least-32-characters-long-random",
   database: getDatabase(),
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: false,
   },
+  account: {
+    accountLinking: {
+      enabled: true,
+      trustedProviders: ["google", "github"],
+      requireLocalEmailVerified: false,
+    },
+    storeStateStrategy: "cookie",
+  },
   socialProviders: Object.keys(socialProviders).length > 0 ? socialProviders : undefined,
   session: {
     expiresIn: 60 * 60 * 24 * 7,
   },
+  trustedOrigins: [
+    "http://localhost:3000",
+    ...(process.env.BETTER_AUTH_URL ? [process.env.BETTER_AUTH_URL] : []),
+    ...(process.env.NEXT_PUBLIC_APP_URL ? [process.env.NEXT_PUBLIC_APP_URL] : []),
+  ],
 });

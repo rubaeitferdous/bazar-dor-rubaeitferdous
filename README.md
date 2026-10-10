@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# বাজার দর | BazarDor
+
+BazarDor is a responsive Bangla grocery and commodity price marketplace built with Next.js. The app helps users explore daily market prices, filter products by category, view price trends, and access protected product detail pages. It also includes login/signup flows with BetterAuth and a clean, mobile-friendly UI.
+
+## Project Description
+
+This project was created to match the assignment requirements in the public instruction file. It presents a marketplace-style interface for everyday essentials such as rice, vegetables, fish, and other household goods, with a Bengali-first design and price-sensitive product browsing.
+
+## Technologies Used
+
+- Next.js 16 (App Router)
+- TypeScript
+- Tailwind CSS
+- DaisyUI
+- BetterAuth
+- MongoDB
+- React Hot Toast
+
+## Key Features
+
+1. Responsive navbar with category navigation, auth actions, and animated price ticker.
+2. Hero banner section with CTA linking to the all-products section on the same page.
+3. Price trend sections for products whose prices increased or decreased today.
+4. Dynamic product grid with category filtering, sorting, and loading skeletons.
+5. Protected product detail pages with market summaries and bazar-based pricing information.
+6. Authentication pages for sign in and sign up using email and social login options.
+7. User profile and update information flow.
+8. 404 page, friendly empty states, and toast notifications for error and success messages.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18 or later
+- npm
+
+### Installation
+
+```bash
+npm install
+```
+
+### Run locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open http://localhost:3000 in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Production build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm run start
+```
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```text
+src/
+  app/            # App Router pages and routes
+  components/     # Reusable UI components
+  lib/            # Auth, utilities, and shared logic
+public/
+  instruction.md  # Assignment instructions
+  images/        # Project assets
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Notes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- The app is designed to be mobile, tablet, and desktop friendly.
+- The design follows the provided Bengali marketplace concept and assignment requirements.
+- The project includes a complete authentication flow, protected routes, and category/product browsing experience.
