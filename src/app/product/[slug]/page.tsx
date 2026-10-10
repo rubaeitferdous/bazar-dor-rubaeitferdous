@@ -26,7 +26,7 @@ export default async function ProductPage({
   if (!product) {
     notFound();
   }
-  // মার্কে টগুলো ডিভিশন অনুযায়ী গ্রুপ করো
+ 
   const marketsByDivision = product.markets.reduce(
     (acc, market) => {
       if (!acc[market.division]) {
@@ -37,7 +37,7 @@ export default async function ProductPage({
     },
     {} as Record<string, typeof product.markets>,
   );
-  // Min, Max, Average হিসাব করো
+ 
   const allMins = product.markets.map((m) => m.min);
   const allMaxs = product.markets.map((m) => m.max);
   const minPrice = Math.min(...allMins);
