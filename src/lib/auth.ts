@@ -19,6 +19,31 @@ if (process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET) {
   };
 }
 
+function getOrigin(value: string | undefined): string | undefined {
+  if (!value) return undefined;
+
+  try {
+    return new URL(value).origin;
+  } catch {
+    throw new Error("Auth URLs must be valid absolute URLs.");
+  }
+}
+
+const baseURL =
+  getOrigin(process.env.BETTER_AUTH_URL) ??
+  "https://bazar-dor-rubaeitferdous.vercel.app";
+const trustedOrigins = [
+  "http://localhost:3000",
+  baseURL,
+  getOrigin(process.env.NEXT_PUBLIC_APP_URL),
+  getOrigin(process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined),
+  getOrigin(
+    process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+      : undefined,
+  ),
+].filter((origin, index, origins): origin is string => Boolean(origin) && origins.indexOf(origin) === index);
+
 declare global {
   var _mongoClient: MongoClient | undefined;
 }
@@ -52,7 +77,7 @@ const getDatabase = () => {
 };
 
 export const auth = betterAuth({
-  baseURL: process.env.BETTER_AUTH_URL || "https://bazar-dor-rubaeitferdous.vercel.app/",
+  baseURL,
   secret: process.env.BETTER_AUTH_SECRET || "your-secret-key-at-least-32-characters-long-random",
   database: getDatabase(),
   emailAndPassword: {
@@ -71,9 +96,5 @@ export const auth = betterAuth({
   session: {
     expiresIn: 60 * 60 * 24 * 7,
   },
-  trustedOrigins: [
-    "http://localhost:3000",
-    ...(process.env.BETTER_AUTH_URL ? [process.env.BETTER_AUTH_URL] : []),
-    ...(process.env.NEXT_PUBLIC_APP_URL ? [process.env.NEXT_PUBLIC_APP_URL] : []),
-  ],
+  trustedOrigins,
 });
