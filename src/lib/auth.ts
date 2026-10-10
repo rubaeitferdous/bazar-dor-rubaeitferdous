@@ -96,5 +96,10 @@ export const auth = betterAuth({
   session: {
     expiresIn: 60 * 60 * 24 * 7,
   },
+  advanced: {
+    ipAddress: {
+      ipAddressHeaders: ["x-real-ip", "x-forwarded-for"],
+    },
+  },
   trustedOrigins,
 });
