@@ -1,6 +1,5 @@
-import { getBanglaDate } from "@/lib/utils";
 export default function Hero() {
-  const banglaDate = getBanglaDate();
+  const banglaDate = "আজকের বাজার";
   return (
     <section
       className="bg-gradient-to-r from-green-50 to-green-100

@@ -1,25 +1,10 @@
 export default function Footer() {
-return (
-<footer className="bg-gray-900 text-gray-300 py-8"><div className="max-w-7xl mx-auto px-4 flex flex-col
-md:flex-row items-center justify-between gap-4">
-{/* Left side */}
-<div className="flex items-center gap-2">
-🛒</span>
-<span className="text-2xl">
-<div>
-<h3 className="text-lg font-bold text-white">বাজার
-দর</h3>
-<p className="text-sm text-gray-400">
-প্রয়োজনীয় পণ্যের দাম এক নজরে।
-</p>
-</div>
-</div>
-{/* Right side */}
-<p className="text-sm text-gray-400 text-center
-md:text-right max-w-md">
-সকল দাম সম্ভাব্য; বাজার অবস্থার ওপর নির্ভ র করে পরিবর্তি ত হয়।
-</p>
-</div>
-</footer>
-);
+  return (
+    <footer className="border-t border-slate-200 bg-slate-900 text-slate-200">
+      <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-6 text-sm md:flex-row md:items-center md:justify-between">
+        <p className="font-medium text-slate-100">বাজার দর — প্রয়োজনীয় পণ্যের দাম এক নজরে।</p>
+        <p className="text-slate-300">“সকল দাম সম্ভাব্য; বাজার অবস্থার ওপর নির্ভর করে পরিবর্তিত হয়।”</p>
+      </div>
+    </footer>
+  );
 }

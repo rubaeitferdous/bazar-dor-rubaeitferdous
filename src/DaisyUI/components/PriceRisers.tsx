@@ -1,7 +1,7 @@
 import ProductCard from "./ProductCard";
 import { type Product } from "@/lib/utils";
 export default function PriceRisers({ products }: { products: Product[] }) {
-  // দাম বেড়েছে এমন প্রোডাক্ট বের করো, বেশি থেকে কম সাজাও, প্রথম ৬টা নাও
+  // Show the six largest price increases.
   const risers = products
     .filter((p) => p.change.dir === "up")
     .sort((a, b) => b.change.pct - a.change.pct)

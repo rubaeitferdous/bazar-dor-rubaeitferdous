@@ -16,7 +16,7 @@ export default function PriceTicker() {
     dozen: "ডজন",
     piece: "পিস",
   };
-  // দুইবার repeat করি smooth infinite scroll এর জন্য
+  // Duplicate for seamless scrolling.
   const tickerItems = [...products, ...products];
   return (
     <div
