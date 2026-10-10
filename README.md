@@ -2,6 +2,10 @@
 
 BazarDor is a responsive Bangla grocery and commodity price marketplace built with Next.js. The app helps users explore daily market prices, filter products by category, view price trends, and access protected product detail pages. It also includes login/signup flows with BetterAuth and a clean, mobile-friendly UI.
 
+## Live Demo
+
+[https://bazar-dor-rubaeitferdous.vercel.app/](https://bazar-dor-rubaeitferdous.vercel.app/)
+
 ## Project Description
 
 This project was created to match the assignment requirements in the public instruction file. It presents a marketplace-style interface for everyday essentials such as rice, vegetables, fish, and other household goods, with a Bengali-first design and price-sensitive product browsing.

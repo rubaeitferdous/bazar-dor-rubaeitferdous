@@ -33,7 +33,7 @@ const baseURL =
   getOrigin(process.env.BETTER_AUTH_URL) ??
   "https://bazar-dor-rubaeitferdous.vercel.app";
 const trustedOrigins = [
-  "http://localhost:3000",
+  "https://bazar-dor-rubaeitferdous.vercel.app/",
   baseURL,
   getOrigin(process.env.NEXT_PUBLIC_APP_URL),
   getOrigin(process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined),
@@ -78,7 +78,7 @@ const getDatabase = () => {
 
 export const auth = betterAuth({
   baseURL,
-  secret: process.env.BETTER_AUTH_SECRET || "your-secret-key-at-least-32-characters-long-random",
+  secret: process.env.BETTER_AUTH_SECRET,
   database: getDatabase(),
   emailAndPassword: {
     enabled: true,
@@ -95,11 +95,6 @@ export const auth = betterAuth({
   socialProviders: Object.keys(socialProviders).length > 0 ? socialProviders : undefined,
   session: {
     expiresIn: 60 * 60 * 24 * 7,
-  },
-  advanced: {
-    ipAddress: {
-      ipAddressHeaders: ["x-real-ip", "x-forwarded-for"],
-    },
   },
   trustedOrigins,
 });
