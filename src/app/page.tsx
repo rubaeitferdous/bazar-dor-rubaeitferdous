@@ -6,7 +6,7 @@ import type { Product } from "@/lib/utils";
 
 async function getProducts(): Promise<Product[]> {
   try {
-    const response = await fetch("https://api.api-store.workers.dev/api/bazardor/products", {
+    const response = await fetch("https://openapi.programming-hero.com/api/bazardor/products", {
       next: { revalidate: 60 },
     });
 

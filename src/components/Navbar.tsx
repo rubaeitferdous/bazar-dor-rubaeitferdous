@@ -18,7 +18,7 @@ export default function Navbar() {
   const banglaDate = "আজকের বাজার";
 
   useEffect(() => {
-    fetch("https://api.api-store.workers.dev/api/bazardor/categories")
+    fetch("https://openapi.programming-hero.com/api/bazardor/categories")
       .then((response) => response.json())
       .then((data) => setCategories(Array.isArray(data) ? data : []))
       .catch(() => setCategories([]));

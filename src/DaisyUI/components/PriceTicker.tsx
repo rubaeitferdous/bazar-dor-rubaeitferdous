@@ -4,7 +4,7 @@ import { formatPrice, toBengaliNumber, type Product } from "@/lib/utils";
 export default function PriceTicker() {
   const [products, setProducts] = useState<Product[]>([]);
   useEffect(() => {
-    fetch("https://api.api-store.workers.dev/api/bazardor/products")
+    fetch("https://openapi.programming-hero.com/api/bazardor/products")
       .then((res) => res.json())
       .then((data) => setProducts(data))
       .catch((err) => console.error("Ticker error:", err));

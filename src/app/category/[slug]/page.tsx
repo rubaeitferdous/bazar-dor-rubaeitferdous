@@ -21,8 +21,8 @@ export default function CategoryPage() {
     const controller = new AbortController();
 
     Promise.all([
-      fetch(`https://api.api-store.workers.dev/api/bazardor/products?category=${slug}`, { signal: controller.signal }),
-      fetch(`https://api.api-store.workers.dev/api/bazardor/categories/${slug}`, { signal: controller.signal }),
+      fetch(`https://openapi.programming-hero.com/api/bazardor/products?category=${slug}`, { signal: controller.signal }),
+      fetch(`https://openapi.programming-hero.com/api/bazardor/categories/${slug}`, { signal: controller.signal }),
     ])
       .then(async ([productResponse, categoryResponse]) => {
         if (!productResponse.ok || !categoryResponse.ok) {
