@@ -52,7 +52,7 @@ const getDatabase = () => {
 };
 
 export const auth = betterAuth({
-  baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
+  baseURL: process.env.BETTER_AUTH_URL || "https://bazar-dor-rubaeitferdous.vercel.app/",
   secret: process.env.BETTER_AUTH_SECRET || "your-secret-key-at-least-32-characters-long-random",
   database: getDatabase(),
   emailAndPassword: {
